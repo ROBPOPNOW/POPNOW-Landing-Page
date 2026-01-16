@@ -183,16 +183,14 @@
 
         .problem-card {
             background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            padding: 40px 30px;
             border-radius: 20px;
             border: 1px solid #222;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            min-height: 280px;
+            min-height: 320px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
         }
 
         .problem-card::before {
@@ -201,46 +199,46 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 70%;
             background-size: cover;
             background-position: center;
-            opacity: 0.5;
+            opacity: 1;
             transition: all 0.5s ease;
             z-index: 0;
         }
 
         .problem-card-1::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
 
         .problem-card-2::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
 
         .problem-card-3::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
 
         .problem-card-4::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/382297/pexels-photo-382297.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/382297/pexels-photo-382297.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
 
         .problem-card-5::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
 
         .problem-card-6::before {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-image: url('https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=800');
             background-size: cover;
             background-position: center;
         }
@@ -535,9 +533,9 @@
 <body>
     <div class="hero">
         <div class="container">
-           <div class="logo-container">
-       <img src="logo.png" alt="POPNOW">
-   </div>
+            <div class="logo-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAASwCAYAAADQC1U8AAAgAElEQVR4Aey9CZwcVb3/f6r6OZN9spGFECABwhZAEQFFRRZBQEBBUVREH6j8RcWfqOgTfT4Vt+dTn08f+p4+n0+f+nwiKMgiiyD7EmRfQkL2fZ/pnq7u//d7O3Uy6Z6uqq7qrqru+n6SkJnurq46dZZTn/mec865IoAAAgghggAC..." alt="POPNOW">
+            </div>
             <p class="tagline">Live moments. Real places. Right now.</p>
             <p class="sub-tagline">Raw. Real. Unfiltered. No edits. Just what's happening.</p>
             <a href="#waitlist" class="hero-cta">Join the Waitlist</a>
@@ -549,63 +547,21 @@
             <h2 class="section-title">What's happening <span class="section-title-accent">right now?</span></h2>
             <div class="problem-grid">
                 <div class="problem-card problem-card-1">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M3 15.5v-7c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v7c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2z"/>
-                            <path d="M8 10.5h8M8 13.5h5"/>
-                            <circle cx="18" cy="8.5" r="1"/>
-                            <path d="M7 6.5V3M17 6.5V3M12 19.5v2M7 19.5l-2 2M17 19.5l2 2"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">How's the weather in Queenstown at this exact moment?</div>
                 </div>
                 <div class="problem-card problem-card-2">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M7 17h10M9 10h6v7H9z"/>
-                            <circle cx="8" cy="16" r="2"/>
-                            <circle cx="16" cy="16" r="2"/>
-                            <path d="M9 10l-1-5h8l-1 5"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">Is Auckland city traffic packed right now?</div>
                 </div>
                 <div class="problem-card problem-card-3">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M3 12c0-7.4 1.4-9 9-9s9 1.6 9 9c0 4.4-1.8 7-4 9l-5 3-5-3c-2.2-2-4-4.6-4-9z"/>
-                            <circle cx="12" cy="11" r="2"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">Is Brown's Bay crowded today?</div>
                 </div>
                 <div class="problem-card problem-card-4">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="9"/>
-                            <path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
-                            <path d="M8 8l8 8M16 8l-8 8"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">What's the vibe in Takapuna now?</div>
                 </div>
                 <div class="problem-card problem-card-5">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="9"/>
-                            <path d="M3.6 9h16.8M3.6 15h16.8"/>
-                            <ellipse cx="12" cy="12" rx="4" ry="9"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">What does Tokyo look like this second?</div>
                 </div>
                 <div class="problem-card problem-card-6">
-                    <div class="problem-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                    </div>
                     <div class="problem-question">What's at that location I'm about to visit?</div>
                 </div>
             </div>
