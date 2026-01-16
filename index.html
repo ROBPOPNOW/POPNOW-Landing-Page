@@ -176,9 +176,15 @@
         .problem-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            gap: 50px;
             max-width: 1100px;
             margin: 0 auto;
+        }
+
+        .problem-item {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .problem-card {
@@ -188,9 +194,8 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            min-height: 320px;
-            display: flex;
-            flex-direction: column;
+            height: 280px;
+            width: 100%;
         }
 
         .problem-card::before {
@@ -199,7 +204,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 70%;
+            bottom: 0;
             background-size: cover;
             background-position: center;
             opacity: 1;
@@ -533,9 +538,9 @@
 <body>
     <div class="hero">
         <div class="container">
-            <div class="logo-container">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAASwCAYAAADQC1U8AAAgAElEQVR4Aey9CZwcVb3/f6r6OZN9spGFECABwhZAEQFFRRZBQEBBUVREH6j8RcWfqOgTfT4Vt+dTn08f+p4+n0+f+nwiKMgiiyD7EmRfQkL2fZ/pnq7u//d7O3Uy6Z6uqq7qrqru+n6SkJnurq46dZZTn/mec865IoAAAgghggAC..." alt="POPNOW">
-            </div>
+           <div class="logo-container">
+       <img src="logo.png" alt="POPNOW">
+   </div>
             <p class="tagline">Live moments. Real places. Right now.</p>
             <p class="sub-tagline">Raw. Real. Unfiltered. No edits. Just what's happening.</p>
             <a href="#waitlist" class="hero-cta">Join the Waitlist</a>
@@ -546,22 +551,28 @@
         <div class="container">
             <h2 class="section-title">What's happening <span class="section-title-accent">right now?</span></h2>
             <div class="problem-grid">
-                <div class="problem-card problem-card-1">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-1"></div>
                     <div class="problem-question">How's the weather in Queenstown at this exact moment?</div>
                 </div>
-                <div class="problem-card problem-card-2">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-2"></div>
                     <div class="problem-question">Is Auckland city traffic packed right now?</div>
                 </div>
-                <div class="problem-card problem-card-3">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-3"></div>
                     <div class="problem-question">Is Brown's Bay crowded today?</div>
                 </div>
-                <div class="problem-card problem-card-4">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-4"></div>
                     <div class="problem-question">What's the vibe in Takapuna now?</div>
                 </div>
-                <div class="problem-card problem-card-5">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-5"></div>
                     <div class="problem-question">What does Tokyo look like this second?</div>
                 </div>
-                <div class="problem-card problem-card-6">
+                <div class="problem-item">
+                    <div class="problem-card problem-card-6"></div>
                     <div class="problem-question">What's at that location I'm about to visit?</div>
                 </div>
             </div>
