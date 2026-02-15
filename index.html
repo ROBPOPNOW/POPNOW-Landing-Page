@@ -532,6 +532,43 @@
             .problem-grid {
                 grid-template-columns: 1fr;
             }
+            .footer-links {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-link {
+    color: #FF1493;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.footer-divider {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .footer-divider {
+        display: none;
+    }
+}
         }
     </style>
 </head>
@@ -695,9 +732,18 @@
     </div>
 
     <footer>
-        <p class="footer-tagline">The world through real eyes, in real time</p>
-        <p class="footer-domain">popnow.world</p>
-    </footer>
+    <p class="footer-tagline">The world through real eyes, in real time</p>
+    <p class="footer-domain">popnow.world</p>
+    
+    <!-- NEW FOOTER LINKS -->
+    <div class="footer-links">
+        <a href="/privacy.html" class="footer-link">Privacy Policy</a>
+        <span class="footer-divider">•</span>
+        <a href="/terms.html" class="footer-link">Terms & Conditions</a>
+        <span class="footer-divider">•</span>
+        <a href="/support.html" class="footer-link">Support</a>
+    </div>
+</footer>
 
     <script>
         let emailList = [];
