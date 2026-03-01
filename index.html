@@ -475,6 +475,12 @@
             box-shadow: 0 15px 40px rgba(255, 20, 147, 0.6);
         }
 
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .success-message {
             display: none;
             background: linear-gradient(135deg, #10b981, #059669);
@@ -487,6 +493,21 @@
         }
 
         .success-message.show {
+            display: block;
+        }
+
+        .error-message {
+            display: none;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .error-message.show {
             display: block;
         }
 
@@ -511,6 +532,33 @@
             letter-spacing: 1px;
         }
 
+        .footer-links {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-link {
+            color: #FF1493;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .footer-divider {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
         @media (max-width: 768px) {
             .logo-container img {
                 max-width: 220px;
@@ -532,43 +580,17 @@
             .problem-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        @media (max-width: 480px) {
             .footer-links {
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.footer-link {
-    color: #FF1493;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.footer-link:hover {
-    text-decoration: underline;
-    opacity: 0.8;
-}
-
-.footer-divider {
-    color: #666;
-    font-size: 0.95rem;
-}
-
-@media (max-width: 480px) {
-    .footer-links {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .footer-divider {
-        display: none;
-    }
-}
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .footer-divider {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -723,11 +745,12 @@
                     placeholder="Your email address" 
                     required
                 >
-                <button type="submit">Join Waitlist</button>
+                <button type="submit" id="submitBtn">Join Waitlist</button>
             </form>
             <div class="success-message" id="successMessage">
                 ✓ You're on the list. We'll notify you when POPNOW launches.
             </div>
+            <div class="error-message" id="errorMessage"></div>
         </div>
     </div>
 
@@ -735,7 +758,6 @@
     <p class="footer-tagline">The world through real eyes, in real time</p>
     <p class="footer-domain">popnow.world</p>
     
-    <!-- NEW FOOTER LINKS -->
     <div class="footer-links">
         <a href="/privacy.html" class="footer-link">Privacy Policy</a>
         <span class="footer-divider">•</span>
@@ -746,31 +768,75 @@
 </footer>
 
     <script>
-        let emailList = [];
-        
-        const savedEmails = sessionStorage.getItem('popnow_emails');
-        if (savedEmails) {
-            emailList = JSON.parse(savedEmails);
-        }
+        const SUPABASE_URL = 'https://spdsgmkirubngfdxxrzj.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwZHNnbWtpcnVibmdmZHh4cnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExMTMxNTksImV4cCI6MjA3NjY4OTE1OX0.1LzX5D49T5MU01Ew_JlY_5YXaeGlq3atHs0VIN1j7bM';
 
-        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const emailInput = document.getElementById('emailInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
             const email = emailInput.value.trim();
             
-            if (email && !emailList.includes(email)) {
-                emailList.push(email);
-                sessionStorage.setItem('popnow_emails', JSON.stringify(emailList));
-                
-                document.getElementById('successMessage').classList.add('show');
-                emailInput.value = '';
+            if (!email) return;
+
+            // Hide previous messages
+            successMsg.classList.remove('show');
+            errorMsg.classList.remove('show');
+            
+            // Disable button while submitting
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Joining...';
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+
+                if (response.ok || response.status === 201) {
+                    // Success
+                    successMsg.classList.add('show');
+                    emailInput.value = '';
+                    
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 5000);
+                } else {
+                    const data = await response.json();
+                    
+                    if (data.code === '23505') {
+                        // Duplicate email
+                        errorMsg.textContent = "You're already on the waitlist! We'll notify you when POPNOW launches.";
+                        errorMsg.classList.add('show');
+                    } else {
+                        errorMsg.textContent = 'Something went wrong. Please try again.';
+                        errorMsg.classList.add('show');
+                    }
+                    
+                    setTimeout(() => {
+                        errorMsg.classList.remove('show');
+                    }, 5000);
+                }
+            } catch (error) {
+                console.error('Waitlist error:', error);
+                errorMsg.textContent = 'Network error. Please try again.';
+                errorMsg.classList.add('show');
                 
                 setTimeout(() => {
-                    document.getElementById('successMessage').classList.remove('show');
+                    errorMsg.classList.remove('show');
                 }, 5000);
-            } else if (emailList.includes(email)) {
-                alert('This email is already on the waitlist.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join Waitlist';
             }
         });
 
