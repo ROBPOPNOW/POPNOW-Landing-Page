@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POPNOW - Resetting Password...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #FF69B4, #7952B3);
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .container { padding: 20px; }
+    h2 { font-size: 24px; margin-bottom: 8px; }
+    p { font-size: 16px; opacity: 0.8; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Redirecting to POPNOW...</h2>
+    <p>Opening the app to reset your password.</p>
+  </div>
+  <script>
+    // Grab the fragment (#access_token=...&refresh_token=...)
+    var hash = window.location.hash.substring(1);
+    if (hash) {
+      // Convert fragment to query params and redirect to app deep link
+      window.location.href = 'popnow://auth/callback?type=recovery&' + hash;
+    } else {
+      // No tokens, check query params (some Supabase versions use these)
+      var query = window.location.search.substring(1);
+      if (query) {
+        window.location.href = 'popnow://auth/callback?type=recovery&' + query;
+      } else {
+        document.querySelector('h2').textContent = 'Link expired';
+        document.querySelector('p').textContent = 'Please request a new password reset from the app.';
+      }
+    }
+  </script>
+</body>
+</html>
