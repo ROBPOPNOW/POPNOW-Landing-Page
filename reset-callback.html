@@ -27,16 +27,17 @@
     <p>Opening the app to reset your password.</p>
   </div>
   <script>
-    // Grab the fragment (#access_token=...&refresh_token=...)
     var hash = window.location.hash.substring(1);
     if (hash) {
-      // Convert fragment to query params and redirect to app deep link
-      window.location.href = 'popnow://auth/callback?type=recovery&' + hash;
+      var hashParams = new URLSearchParams(hash);
+      hashParams.delete('type');
+      window.location.href = 'popnow://auth/callback?type=recovery&' + hashParams.toString();
     } else {
-      // No tokens, check query params (some Supabase versions use these)
       var query = window.location.search.substring(1);
       if (query) {
-        window.location.href = 'popnow://auth/callback?type=recovery&' + query;
+        var queryParams = new URLSearchParams(query);
+        queryParams.delete('type');
+        window.location.href = 'popnow://auth/callback?type=recovery&' + queryParams.toString();
       } else {
         document.querySelector('h2').textContent = 'Link expired';
         document.querySelector('p').textContent = 'Please request a new password reset from the app.';
