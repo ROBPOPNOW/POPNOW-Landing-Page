@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "world.popnow.app",
+      "sha256_cert_fingerprints": [
+        "F4:9A:65:53:4F:C3:BA:7D:34:B1:A8:1A:5F:A7:1B:83:6E:C8:6C:18:85:31:7A:97:4F:6E:53:B6:AB:B8:5F:E9"
+      ]
+    }
+  }
+]
