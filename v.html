@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POPNOW - Watch This Video</title>
+    <meta property="og:title" content="Watch this on POPNOW" />
+    <meta property="og:description" content="Catch this moment before it disappears forever!" />
+    <meta property="og:image" content="" id="og-image" />
+    <meta property="og:type" content="video.other" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #350420, #FF69B4, #7952B3);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-thumbnail-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/16;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #350420;
+        }
+
+        .video-info {
+            margin-bottom: 30px;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #FFB800;
+        }
+
+        .caption {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .timer {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .expired-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .expired-message h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .expired-message p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #FF69B4;
+            color: white;
+            box-shadow: 0 4px 16px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn-app-store {
+            background: #000000;
+            color: white;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-play-store {
+            background: #000000;
+            color: white;
+            display: flex;
+            gap: 12px;
+        }
+
+        .store-icon {
+            height: 24px;
+            width: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .error h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="POPNOW" class="logo">
+    </div>
+
+    <div class="container" id="content">
+        <div class="loading">
+            <p>Loading video...</p>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://spdsgmkirubngfdxxrzj.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwZHNnbWtpcnVibmdmZHh4cnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExMTMxNTksImV4cCI6MjA3NjY4OTE1OX0.1LzX5D49T5MU01Ew_JlY_5YXaeGlq3atHs0VIN1j7bM';
+        const IOS_APP_URL = 'https://apps.apple.com/us/app/popnow-world/id6756990681';
+        const ANDROID_APP_URL = 'https://play.google.com/store/apps/details?id=world.popnow.app';
+        const DEEP_LINK_SCHEME = 'popnow://';
+
+        // Get video ID from URL parameter
+        function getVideoId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Fetch video data from Supabase
+        async function fetchVideoData(videoId) {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/videos?id=eq.${videoId}&select=*,users(username,display_name)`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    }
+                );
+
+                const data = await response.json();
+                
+                if (!data || data.length === 0) {
+                    throw new Error('Video not found');
+                }
+
+                return data[0];
+            } catch (error) {
+                console.error('Error fetching video:', error);
+                throw error;
+            }
+        }
+
+        // Check if video is expired (1 hour after creation)
+        function isVideoExpired(createdAt) {
+            const created = new Date(createdAt);
+            const expires = new Date(created.getTime() + 60 * 60 * 1000); // 1 hour
+            const now = new Date();
+            return now > expires;
+        }
+
+        // Calculate time left
+        function getTimeLeft(createdAt) {
+            const created = new Date(createdAt);
+            const expires = new Date(created.getTime() + 60 * 60 * 1000);
+            const now = new Date();
+            const msLeft = expires.getTime() - now.getTime();
+            const minsLeft = Math.max(0, Math.floor(msLeft / 60000));
+            
+            if (minsLeft === 0) return 'moments';
+            return `${minsLeft} min${minsLeft === 1 ? '' : 's'}`;
+        }
+
+        // Get thumbnail URL based on library_id
+        function getThumbnailUrl(videoUrl, libraryId) {
+            // Extract video GUID from URL
+            const guid = videoUrl.split('/').pop().split('.')[0];
+            
+            if (libraryId === 517995) {
+                // Free library
+                return `https://vz-60af4a59-0b4.b-cdn.net/${guid}/thumbnail.jpg`;
+            } else if (libraryId === 597832) {
+                // Premium library
+                return `https://vz-bf878a45-f2f.b-cdn.net/${guid}/thumbnail.jpg`;
+            }
+            
+            // Fallback
+            return `https://vz-60af4a59-0b4.b-cdn.net/${guid}/thumbnail.jpg`;
+        }
+
+        // Attempt deep link
+        function attemptDeepLink(videoId) {
+            const deepLinkUrl = `${DEEP_LINK_SCHEME}video/${videoId}`;
+            
+            // Try to open the app
+            window.location.href = deepLinkUrl;
+            
+            // Fallback to app stores after a delay if app didn't open
+            setTimeout(() => {
+                // Detect iOS or Android
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                const isAndroid = /Android/.test(navigator.userAgent);
+                
+                if (isIOS) {
+                    window.location.href = IOS_APP_URL;
+                } else if (isAndroid) {
+                    window.location.href = ANDROID_APP_URL;
+                }
+            }, 2000);
+        }
+
+        // Render the page
+        async function renderPage() {
+            const videoId = getVideoId();
+            const contentDiv = document.getElementById('content');
+
+            if (!videoId) {
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <h2>Invalid Link</h2>
+                        <p>This link doesn't contain a valid video ID.</p>
+                        <div class="buttons">
+                            <a href="${IOS_APP_URL}" class="btn btn-app-store">
+                                <span>📱 Download on App Store</span>
+                            </a>
+                            <a href="${ANDROID_APP_URL}" class="btn btn-play-store">
+                                <span>📱 Get it on Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const video = await fetchVideoData(videoId);
+                const expired = isVideoExpired(video.created_at);
+                const thumbnailUrl = getThumbnailUrl(video.video_url, video.library_id);
+                const username = video.users?.display_name || video.users?.username || 'POPNOW User';
+                const caption = video.caption || '';
+                const timeLeft = getTimeLeft(video.created_at);
+
+                // Update OG image meta tag
+                document.getElementById('og-image').setAttribute('content', thumbnailUrl);
+
+                if (expired) {
+                    contentDiv.innerHTML = `
+                        <div class="expired-message">
+                            <h2>⏰ This Moment Has Expired</h2>
+                            <p>POPNOW videos only last 1 hour — and this one's time is up!</p>
+                            <p>Download POPNOW to catch live moments before they disappear forever.</p>
+                            <div class="buttons">
+                                <a href="${IOS_APP_URL}" class="btn btn-app-store">
+                                    <span>📱 Download on App Store</span>
+                                </a>
+                                <a href="${ANDROID_APP_URL}" class="btn btn-play-store">
+                                    <span>📱 Get it on Google Play</span>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = `
+                        <div class="video-thumbnail-container">
+                            <img src="${thumbnailUrl}" alt="Video thumbnail" class="video-thumbnail" />
+                            <div class="play-overlay">
+                                <div class="play-icon">▶</div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <div class="username">@${username}</div>
+                            ${caption ? `<div class="caption">${caption}</div>` : ''}
+                            <div class="timer">🚨 Only ${timeLeft} left to watch!</div>
+                        </div>
+                        <div class="buttons">
+                            <button onclick="attemptDeepLink('${videoId}')" class="btn btn-primary">
+                                Watch in POPNOW
+                            </button>
+                            <a href="${IOS_APP_URL}" class="btn btn-app-store">
+                                <span>📱 Download on App Store</span>
+                            </a>
+                            <a href="${ANDROID_APP_URL}" class="btn btn-play-store">
+                                <span>📱 Get it on Google Play</span>
+                            </a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <h2>Video Not Found</h2>
+                        <p>This video may have been removed or the link is invalid.</p>
+                        <div class="buttons">
+                            <a href="${IOS_APP_URL}" class="btn btn-app-store">
+                                <span>📱 Download on App Store</span>
+                            </a>
+                            <a href="${ANDROID_APP_URL}" class="btn btn-play-store">
+                                <span>📱 Get it on Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Load the page
+        renderPage();
+    </script>
+</body>
+</html>
