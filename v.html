@@ -9,233 +9,229 @@
     <meta property="og:image" content="" id="og-image" />
     <meta property="og:type" content="video.other" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #350420, #FF69B4, #7952B3);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            padding: 16px;
-            overflow: hidden;
-        }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(135deg, #350420, #FF69B4, #7952B3);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        padding: 20px;
+    }
 
-        .header {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    .header {
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        margin-top: 20px;
+    }
 
-        .logo {
-            height: 70px;
-            width: auto;
-        }
+    .logo {
+        height: 120px;
+        width: auto;
+    }
 
+    .container {
+        width: 100%;
+        max-width: 500px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
+    }
+
+    .video-thumbnail-container {
+        position: relative;
+        width: 100%;
+        max-width: 280px;
+        aspect-ratio: 9/16;
+        border-radius: 16px;
+        overflow: hidden;
+        margin: 0 auto 16px auto;
+        background: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+    }
+
+    .video-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .play-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+    .video-thumbnail-container:active .play-overlay {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .play-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        color: #350420;
+        padding-left: 4px;
+    }
+
+    .video-info {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .username {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #FFB800;
+    }
+
+    .caption {
+        font-size: 13px;
+        line-height: 1.4;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 6px;
+    }
+
+    .timer {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+        font-style: italic;
+    }
+
+    .expired-message {
+        text-align: center;
+        padding: 30px 16px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .expired-message h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .expired-message p {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: transform 0.2s, opacity 0.2s;
+        border: none;
+        cursor: pointer;
+        gap: 8px;
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    .btn-primary {
+        background: #FF69B4;
+        color: white;
+        box-shadow: 0 4px 16px rgba(255, 105, 180, 0.4);
+    }
+
+    .btn-app-store {
+        background: #000000;
+        color: white;
+    }
+
+    .btn-play-store {
+        background: #000000;
+        color: white;
+    }
+
+    .store-logo {
+        width: 24px;
+        height: 24px;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 16px;
+    }
+
+    .error {
+        text-align: center;
+        padding: 30px 16px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .error h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    @media (max-width: 480px) {
         .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 16px;
+        }
+        
+        .logo {
+            height: 100px;
         }
 
         .video-thumbnail-container {
-            position: relative;
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 9/16;
-            border-radius: 16px;
-            overflow: hidden;
-            margin: 0 auto 16px auto;
-            background: rgba(0, 0, 0, 0.5);
-            cursor: pointer;
+            max-width: 240px;
+        }
+    }
+
+    @media (max-height: 700px) {
+        .logo {
+            height: 80px;
+        }
+        
+        .video-thumbnail-container {
+            max-width: 220px;
         }
 
-        .video-thumbnail {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .play-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .video-thumbnail-container:active .play-overlay {
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .play-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: #350420;
-            padding-left: 4px;
-        }
-
-        .video-info {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .username {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #FFB800;
-        }
-
-        .caption {
-            font-size: 13px;
-            line-height: 1.4;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 6px;
-        }
-
-        .timer {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            font-style: italic;
-        }
-
-        .expired-message {
-            text-align: center;
-            padding: 30px 16px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .expired-message h2 {
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .expired-message p {
-            font-size: 14px;
+        .header {
             margin-bottom: 20px;
         }
-
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: transform 0.2s, opacity 0.2s;
-            border: none;
-            cursor: pointer;
-            gap: 8px;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: #FF69B4;
-            color: white;
-            box-shadow: 0 4px 16px rgba(255, 105, 180, 0.4);
-        }
-
-        .btn-app-store {
-            background: #000000;
-            color: white;
-        }
-
-        .btn-play-store {
-            background: #000000;
-            color: white;
-        }
-
-        .store-logo {
-            width: 24px;
-            height: 24px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 16px;
-        }
-
-        .error {
-            text-align: center;
-            padding: 30px 16px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .error h2 {
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px;
-            }
-            
-            .logo {
-                height: 60px;
-            }
-
-            .video-thumbnail-container {
-                max-width: 240px;
-            }
-        }
-
-        @media (max-height: 700px) {
-            .logo {
-                height: 50px;
-            }
-            
-            .video-thumbnail-container {
-                max-width: 200px;
-            }
-
-            .buttons {
-                gap: 10px;
-            }
-
-            .btn {
-                padding: 12px 18px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="header">
