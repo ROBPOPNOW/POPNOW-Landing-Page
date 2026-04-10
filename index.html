@@ -590,6 +590,45 @@ footer{
   .premium-header{padding:32px 24px}
   .hero-stats{gap:24px}
 }
+
+/* ─── HERO PHONE MOCKUP ─── */
+.hero-phone{
+  margin-top:56px;
+  display:flex;
+  justify-content:center;
+}
+
+.hero-phone-frame{
+  width:240px;
+  aspect-ratio:9/19.5;
+  background:#0a0a0a;
+  border-radius:40px;
+  border:3px solid rgba(255,255,255,0.12);
+  outline:1px solid rgba(255,20,147,0.2);
+  overflow:hidden;
+  position:relative;
+  box-shadow:
+    0 0 0 1px rgba(255,20,147,0.15),
+    0 40px 80px rgba(0,0,0,0.6);
+}
+
+.hero-phone-notch{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:72px;height:20px;
+  background:#000;
+  border-radius:20px;
+  z-index:2;
+}
+
+.hero-phone-frame video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
 </style>
 </head>
 <body>
@@ -654,6 +693,18 @@ footer{
       <div>
         <div class="hero-stat-num">Free</div>
         <div class="hero-stat-label">To download</div>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="hero-phone-frame">
+        <div class="hero-phone-notch"></div>
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          src="video/demo.mp4"
+        ></video>
       </div>
     </div>
   </div>
