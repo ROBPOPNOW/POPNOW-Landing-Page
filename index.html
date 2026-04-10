@@ -218,34 +218,38 @@ img{max-width:100%;display:block}
 
 .problem-card{
   border-radius:var(--r);
-  overflow:hidden;
+  overflow:visible;
   position:relative;
-  aspect-ratio:3/4;
-  background:var(--surface);
-  border:1px solid var(--border);
-  transition:transform 0.3s,border-color 0.3s;
+  background:transparent;
+  border:none;
+  transition:transform 0.3s;
   cursor:default;
 }
-.problem-card:hover{transform:translateY(-4px);border-color:rgba(255,20,147,0.3)}
+.problem-card:hover{transform:translateY(-4px)}
+.problem-card-img-wrap{
+  border-radius:var(--r);
+  overflow:hidden;
+  aspect-ratio:3/4;
+  border:1px solid var(--border);
+  transition:border-color 0.3s;
+  position:relative;
+}
+.problem-card:hover .problem-card-img-wrap{border-color:rgba(255,20,147,0.4)}
 
 .problem-card-img{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  opacity:0.55;
-  transition:opacity 0.4s,transform 0.4s;
+  transition:transform 0.4s;
 }
-.problem-card:hover .problem-card-img{opacity:0.7;transform:scale(1.04)}
+.problem-card:hover .problem-card-img{transform:scale(1.04)}
 
-.problem-card-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.85) 35%, transparent 70%);
-}
+.problem-card-overlay{display:none}
 
 .problem-card-text{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:20px;
-  font-size:15px;font-weight:500;line-height:1.4;
-  color:#fff;
+  position:relative;
+  padding:14px 4px 4px;
+  font-size:13px;font-weight:500;line-height:1.4;
+  color:var(--text2);
 }
 
 /* ─── FEATURES ─── */
@@ -721,33 +725,39 @@ footer{
 
     <div class="problem-grid">
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">How's the weather in Queenstown at this exact moment?</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">Is Auckland traffic packed right now?</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">Is the beach crowded today?</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">What's the vibe at this festival right now?</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">What does Tokyo look like this second?</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=85')"></div>
-        <div class="problem-card-overlay"></div>
+        <div class="problem-card-img-wrap">
+          <div class="problem-card-img" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=90')"></div>
+        </div>
         <div class="problem-card-text">What's at that location I'm about to visit?</div>
       </div>
     </div>
